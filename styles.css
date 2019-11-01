@@ -1,67 +1,88 @@
 *{
-	padding: 0px
-	margin:auto;
+	margin: 0;
+	padding: 0;
 	box-sizing: border-box;
 }
-h1{
-    color: #FF0000;
-    padding: 50px;
-    border: 1px solid #5D6063;
-    text-align:center;
+.menu{
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+        background-color: #A3E4D7;
+        align-items: center
 }
-body{
-    color:#414141;
-	
+.morado{
+	display: flex;
+	width: 900px;
+	height: 150px;
+	background-color: #D7BDE2;
+	justify-content: space-between;
 }
-p{
-    padding-top: 20px;
-    padding-bottom: 20px;
-    padding-left: 10px;
-    padding-right: 10px;
+.rosa1{
+	display: flex;
+	background-color: #F5B7B1;
+	width: 250px;
+	height: 50px;
+
+	align-self: center;
 }
-div{
-    color: #FFF;
-    background-color: #5995DA;
-    font-weight: bold;
-    padding: 20px;
-    text-aling: center;
-    border: 2px solid #5D6063;
-    border-radius: 5px;
-    widht: 200px;
-    box-sizing: border-box;
-    margin: auto;
+.rosa2{
+	display: flex;
+	background-color: #F5B7B1;
+	height: 50px;
+	width: 250px;
+	align-self: center;
+
 }
-.principal{
-    background:#000080;
-    border: 1px solid #00FF00;
-    margin: auto;
-    text-align: center;
+.azulandcoffe{
+	display: flex;
+        justify-content: center;
 }
-a:link{
-    color:lime;
-    text-decoration:none;
+.azul{
+	display: flex;
+	width: 700px;
+	height: 350px;
+	background-color: #2980B9;
+        justify-content: space-around;
+        align-items: flex-end;
+       
 }
-a:visited{
-    color:lime;
+.coffe{
+    display: flex;
+    background-color: #CD6155;
+    width: 200px;
+    height: 350px;
+    flex-direction: column;
+    align-items: center;
 }
-a:hover{
-    color: aqua;
-    text-decoration: underline;
+.yellow11,
+.yellow12,
+.yellow13{
+    display:flex;
+    width:100px;
+    height: 100px;
+    background-color: #FFF633;
 }
-a:active{
-color:red;
+.yellow21,
+.yellow22,
+.yellow23{
+    border:1px solid #000000;
+    display:flex;
+    width:100px;
+    height: 100px;
+    background-color: #FFF633;
 }
-.deprtes{
-    background: #000000;
-    border: 1px solid #808000;
-    margin: auto;
-    text-align: center;
+.crema{
+    display: flex;
+    width: 900px;
+    height: 100px;
+    background-color: #D7BDE2;
+    justify-content: center;
 }
-ul{
-    color:00FF00;
-    text-align: center;
-}
-ol{
-    color: #008080;
-    text-align: center;
+.yellow,
+.yellow{
+    display: flex;
+    background-color: #FFF633;
+    width: 100px;
+    heigth: 100px;
+    border: 1px solid #000000;
 }
