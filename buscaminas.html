@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>REACT BUSCAMINAS !</title>
+  <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+
+</head>
+<body style="background-color:#a0d6a7">
+
+<style type="text/css">
+  body {
+  font: 30px "Century Gothic", Futura, sans-serif;
+  margin: 20px;
+  color: #5f0a15 ;
+}
+
+ol, ul {
+  padding-left: 30px;
+}
+
+.board-row:after {
+  clear: both;
+  content: "";
+  display: table;
+}
+.iniciar{
+  text-decoration: none;
+    padding: 10px;
+    font-weight: 500;
+    font-size: 28px;
+    color: #ffffff;
+    background-color:  #065b83;
+    border-radius: 6px;
+    border: 2px solid #4b070a;
+}
+
+.reiniciar{
+  text-decoration: none;
+    padding: 10px;
+    font-weight: 500;
+    font-size: 15px;
+    color: #ffffff;
+    background-color:  #e01c1c;
+    border-radius: 8px;
+    border: 2px solid #4b070a;
+}
+
+.centra {
+display: flex;
+ justify-content: center;
+ align-items: center;
+}
+.status {
+  margin-bottom: 10px;
+}
+
+.square {
+  background:   hsl(46, 64%, 53%);
+  border: 1px solid #999;
+  float: left;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 45px;
+  height: 45px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+  width: 45px;
+}
+
+.square:focus {
+  outline: none;
+}
+
+
+.kbd-navigation .square:focus {
+  background: #ddd;
+}
+
+.game {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+ align-items: center;
+}
+
+.game-info {
+  margin-left: 20px;
+}
+
+</style>
+<div style="display: flex;justify-content: center;align-items: center;flex-direction: column;">
+<h1>BUSCAMINAS</h1>
+<div id="errors" style="background: #c00;color: #fff;display: none;margin: -20px -20px 20px;padding: 20px;white-space: pre-wrap;"></div>
+<div id="root"></div>
+
+</div>
+
+
+<script type="text/babel">
+
+
+
+function Square(props) {
+  return (
+    <button className="square" onClick={props.onClick}>
+      {props.value} 
+    </button>
+  );
+}
+
+
+function Mina(props) {
+  return (
+    <button className="iniciar" onClick={props.onClick}>
+      INICIAR JUEGO
+    </button>
+  );
+}
+
+function Reinicio(props) {
+  return (
+    <button className="reiniciar" onClick={props.onClick}>
+    REINICIAR JUEGO
+  </button>
+   
+  );
+}
+
+var asiertos=0;
+
+class Board extends React.Component {
+  constructor(props) {
+      super(props);
+      this.initialState = {
+        GN:0,
+        i:0,
+      squares: Array(80).fill(null), 
+    minas: Array(9).fill(null)
+  };
+    this.state = this.initialState;
+}
+
+
+ handleClick(i){    
+const squares = this.state.squares.slice();
+  	squares[i] = contAciertos(this.state.squares,this.state.minas,i);
+  	if(squares[i]==-1){
+  		alert("Perdiste :c");
+	}else{
+		if(squares[i]==9){
+      alert("¡FELICIDADES HAS GANADO!")
+    }
+    else{
+			this.setState({squares: squares});    
+		}
+	}
+    
+}
+  
+ onResetClick (i) {
+  const minas = this.state.minas.slice();
+  const sq = this.state.squares.slice();
+  sq[i]=0;
+  for( i=0;i < 10;i++){
+    minas[i]=0;
+  }
+  asiertos=0;
+  this.setState({squares: sq});
+  this.setState({minas: minas});        
+  this.setState (this.initialState);
+  }
+
+minas(){
+var i,j,k;
+var array = [];
+const minas = this.state.minas.slice();
+var ale;
+
+for(i=0; i<80; i++){
+  array[i]=i;
+}
+console.log(array);
+    
+    for (i = 0; i<10; i++) {
+        j = Math.floor(Math.random() * 81);
+        k = array[i - 1];
+        array[i - 1] = array[j];
+        array[j] = k;
+    }
+
+for( i=0;i < 10;i++){
+minas[i]=array[i];
+}
+console.log(minas);
+    this.setState({minas: minas});
+    alert("SE HAN COLOCADO LAS MINAS");
+}
+
+
+renderSquare(i) {
+  return (
+      < Square value={this.state.squares[i]}
+        onClick={() => this.handleClick(i)}/>
+    );
+  }
+
+  renderMina(i) {
+  return (
+      < Mina
+        onClick={() => this.minas()}/>
+    );
+  }
+
+   renderReinicio(i) {
+  return (
+      < Reinicio
+        onClick={() => this.onResetClick()}/>
+    );
+  }
+
+
+render() {
+    return (
+      <div>
+      	{this.renderReinicio()}
+        {this.renderMina()}
+        <div className="board-row">
+          {this.renderSquare(0)}
+          {this.renderSquare(1)}
+          {this.renderSquare(2)}
+          {this.renderSquare(3)}
+          {this.renderSquare(4)}
+          {this.renderSquare(5)}
+          {this.renderSquare(6)}
+          {this.renderSquare(7)}
+          {this.renderSquare(8)}
+
+        </div>
+        <div className="board-row">
+          {this.renderSquare(9)}
+          {this.renderSquare(10)}
+          {this.renderSquare(11)}
+          {this.renderSquare(12)}
+          {this.renderSquare(13)}
+          {this.renderSquare(14)}
+          {this.renderSquare(15)}
+          {this.renderSquare(16)}
+          {this.renderSquare(17)}
+        </div>
+        <div className="board-row">
+          {this.renderSquare(18)}
+          {this.renderSquare(19)}
+          {this.renderSquare(20)}
+          {this.renderSquare(21)}
+          {this.renderSquare(22)}
+          {this.renderSquare(23)}
+          {this.renderSquare(24)}
+          {this.renderSquare(25)}
+          {this.renderSquare(26)}
+        </div>
+  <div className="board-row">
+          {this.renderSquare(27)}
+          {this.renderSquare(28)}
+          {this.renderSquare(29)}
+          {this.renderSquare(30)}
+          {this.renderSquare(31)}
+          {this.renderSquare(32)}
+          {this.renderSquare(33)}
+          {this.renderSquare(34)}
+          {this.renderSquare(35)}
+        </div>
+
+  <div className="board-row">
+          {this.renderSquare(36)}
+          {this.renderSquare(37)}
+          {this.renderSquare(38)}
+          {this.renderSquare(39)}
+          {this.renderSquare(40)}
+          {this.renderSquare(41)}
+          {this.renderSquare(42)}
+          {this.renderSquare(43)}
+          {this.renderSquare(44)}
+        </div>
+
+  <div className="board-row">
+          {this.renderSquare(45)}
+          {this.renderSquare(46)}
+          {this.renderSquare(47)}
+          {this.renderSquare(48)}
+          {this.renderSquare(49)}
+          {this.renderSquare(50)}
+          {this.renderSquare(51)}
+          {this.renderSquare(52)}
+          {this.renderSquare(53)}
+        </div>
+  <div className="board-row">
+          {this.renderSquare(54)}
+          {this.renderSquare(55)}
+          {this.renderSquare(56)}
+          {this.renderSquare(57)}
+          {this.renderSquare(58)}
+          {this.renderSquare(59)}
+          {this.renderSquare(60)}
+          {this.renderSquare(61)}
+          {this.renderSquare(62)}
+        </div>
+
+  <div className="board-row">
+          {this.renderSquare(63)}
+          {this.renderSquare(64)}
+          {this.renderSquare(65)}
+          {this.renderSquare(66)}
+          {this.renderSquare(67)}
+          {this.renderSquare(68)}
+          {this.renderSquare(69)}
+          {this.renderSquare(70)}
+          {this.renderSquare(71)}
+        </div>
+
+  <div className="board-row">
+          {this.renderSquare(72)}
+          {this.renderSquare(73)}
+          {this.renderSquare(74)}
+          {this.renderSquare(75)}
+          {this.renderSquare(76)}
+          {this.renderSquare(77)}
+          {this.renderSquare(78)}
+          {this.renderSquare(79)}
+          {this.renderSquare(80)}
+        </div>
+
+
+      </div>
+    );
+  }
+}
+
+class Game extends React.Component {
+  render() {
+    return (
+
+      <div className="game" >
+        <div className="game-board">
+          <Board />
+        </div>
+        <div className="game-info">
+          <div>{}</div>
+          <ol>{}</ol>
+        </div>
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(
+ <Game />,
+ document.getElementById("root")
+);
+
+function contAciertos(squares,minas,i) {
+var a,b,c,d,e,f,g,h,i,k;
+var ban=0,cont=0;
+console.log("nn:"+minas);
+a=i-10;
+b=i-9;
+c=i-8;
+d=i-1;
+e=i;
+f=i+1;
+g=i+8;
+h=i+9;
+i=i+10;
+
+const lines = [
+    [a, b, c],
+    [d, e, f],
+    [g,h, i],
+  ];
+console.log(e);
+for(k=0;k<10;k++){
+  if(e==minas[k]){
+    ban=1;
+  }
+}
+if(ban==1){
+  return -1;
+}else{
+  for(k=0;k<10;k++){
+    if(a==minas[k]){
+      cont++;
+    }if(b==minas[k]){
+      cont=cont+1;
+    }if(c==minas[k]){
+      cont=cont+1;
+    }if(d==minas[k]){
+      cont=cont+1;
+    }if(e==minas[k]){
+      cont=cont+1;
+    }if(f==minas[k]){
+      cont=cont+1;
+    }if(g==minas[k]){
+      cont=cont+1;
+    }if(h==minas[k]){
+      cont=cont+1;
+    }if(i==minas[k]){
+      cont=cont+1;
+  }
+}
+asiertos++;
+  if(asiertos>70){
+    return 9;
+  }
+  return cont;
+  }
+}
+  </script>
+  </body>
+</html>
